@@ -3,444 +3,239 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PayFlow - Next-Gen Payment Solutions</title>
+    <title>Molada Pay - Universal Payment Platform</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'dark-purple': '#1a0b2e',
+                        'medium-purple': '#2d1b4e',
+                        'accent-purple': '#6b46c1',
+                        'light-purple': '#8b5cf6'
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-        
         .gradient-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1a0b2e 0%, #2d1b4e 50%, #1a0b2e 100%);
         }
-        
-        .crypto-animation {
-            animation: float 3s ease-in-out infinite;
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-5px);
+        .card-hover {
             transition: all 0.3s ease;
         }
-        
-        .stats-counter {
-            animation: countUp 2s ease-out;
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(139, 92, 246, 0.3);
         }
-        
-        @keyframes countUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
         }
     </style>
 </head>
-<body class="bg-gray-50">
+<body class="gradient-bg text-white min-h-screen">
     <!-- Navigation -->
-    <nav class="bg-white shadow-lg fixed w-full top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <div class="flex items-center">
-                    <div class="flex-shrink-0 flex items-center">
-                        <div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg mr-3"></div>
-                        <span class="text-xl font-bold text-gray-900">MOLADA PAY</span>
-                    </div>
+    <nav class="container mx-auto px-4 py-6">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <div class="w-10 h-10 bg-accent-purple rounded-lg flex items-center justify-center">
+                    <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2L2 7v10c0 5.55 3.84 9.74 9 11 5.16-1.26 9-5.45 9-11V7l-10-5z"/>
+                    </svg>
                 </div>
-                <div class="hidden md:block">
-                    <div class="ml-10 flex items-baseline space-x-8">
-                        <a href="#features" class="text-gray-600 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors">Features</a>
-                        <a href="#solutions" class="text-gray-600 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors">Solutions</a>
-                        <a href="#pricing" class="text-gray-600 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors">Pricing</a>
-                        <a href="#contact" class="text-gray-600 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors">Contact</a>
-                    </div>
-                </div>
-                <div class="flex items-center space-x-4">
-                    <a href="signin.html" class="text-gray-600 hover:text-blue-600 px-4 py-2 text-sm font-medium transition-colors">Sign In</a>
-                    <a href="signup.html" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg text-sm font-medium transition-colors">Get Started</a>
-                </div>
+                <span class="text-2xl font-bold">Molada Pay</span>
             </div>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#features" class="hover:text-light-purple transition-colors">Features</a>
+                <a href="#currencies" class="hover:text-light-purple transition-colors">Currencies</a>
+                <a href="#security" class="hover:text-light-purple transition-colors">Security</a>
+                <a href="#contact" class="hover:text-light-purple transition-colors">Contact</a>
+                <a href="signin.html" class="hover:text-light-purple transition-colors">Sign In</a>
+                <a href="signup.html" class="bg-accent-purple hover:bg-light-purple px-4 py-2 rounded-lg transition-colors">Sign Up</a>
+            </div>
+            <button class="md:hidden text-white">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section class="gradient-bg pt-20 pb-16">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <div class="text-white">
-                    <h1 class="text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-                        The Future of
-                        <span class="text-yellow-300">Digital Payments</span>
-                    </h1>
-                    <p class="text-xl mb-8 text-blue-100 leading-relaxed">
-                        Seamlessly process crypto and fiat currencies with our cutting-edge payment infrastructure. Built for businesses that think ahead.
-                    </p>
-                    <div class="flex flex-col sm:flex-row gap-4">
-                        <a href="signup.html" class="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-colors text-center">
-                            Start Free Trial
-                        </a>
-                        <button class="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors">
-                            Watch Demo
-                        </button>
-                    </div>
-                </div>
-                <div class="relative">
-                    <div class="crypto-animation">
-                        <svg class="w-full h-96" viewBox="0 0 400 300" fill="none">
-                            <!-- Bitcoin -->
-                            <circle cx="100" cy="80" r="30" fill="#F7931A" opacity="0.9"/>
-                            <text x="100" y="88" text-anchor="middle" fill="white" font-size="20" font-weight="bold">₿</text>
-                            
-                            <!-- Ethereum -->
-                            <circle cx="300" cy="120" r="25" fill="#627EEA" opacity="0.9"/>
-                            <text x="300" y="128" text-anchor="middle" fill="white" font-size="16" font-weight="bold">Ξ</text>
-                            
-                            <!-- Dollar -->
-                            <circle cx="200" cy="200" r="35" fill="#22C55E" opacity="0.9"/>
-                            <text x="200" y="210" text-anchor="middle" fill="white" font-size="24" font-weight="bold">$</text>
-                            
-                            <!-- Euro -->
-                            <circle cx="80" cy="220" r="20" fill="#3B82F6" opacity="0.9"/>
-                            <text x="80" y="228" text-anchor="middle" fill="white" font-size="14" font-weight="bold">€</text>
-                            
-                            <!-- Connection lines -->
-                            <line x1="130" y1="80" x2="170" y2="200" stroke="white" stroke-width="2" opacity="0.6"/>
-                            <line x1="275" y1="120" x2="235" y2="200" stroke="white" stroke-width="2" opacity="0.6"/>
-                            <line x1="100" y1="220" x2="165" y2="200" stroke="white" stroke-width="2" opacity="0.6"/>
-                        </svg>
-                    </div>
-                </div>
+    <section class="container mx-auto px-4 py-16 text-center">
+        <div class="max-w-4xl mx-auto">
+            <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+                Universal Payment Platform for the 
+                <span class="text-light-purple pulse-animation">Digital Age</span>
+            </h1>
+            <p class="text-xl md:text-2xl mb-8 text-gray-300 leading-relaxed">
+                Accept cryptocurrency and fiat payments seamlessly. Support for USD, EUR, GBP, NGN, and major cryptocurrencies.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="signup.html" class="bg-accent-purple hover:bg-light-purple px-8 py-4 rounded-lg font-semibold text-lg transition-all transform hover:scale-105 text-center">
+                    Get Started Free
+                </a>
+                <button class="border-2 border-accent-purple hover:bg-accent-purple px-8 py-4 rounded-lg font-semibold text-lg transition-all" onclick="showDemo()">
+                    Watch Demo
+                </button>
             </div>
         </div>
     </section>
 
-    <!-- Stats Section -->
-    <section class="bg-white py-16">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
-                <div class="stats-counter">
-                    <div class="text-4xl font-bold text-blue-600 mb-2">$2.5B+</div>
-                    <div class="text-gray-600">Transaction Volume</div>
-                </div>
-                <div class="stats-counter">
-                    <div class="text-4xl font-bold text-blue-600 mb-2">150+</div>
-                    <div class="text-gray-600">Supported Currencies</div>
-                </div>
-                <div class="stats-counter">
-                    <div class="text-4xl font-bold text-blue-600 mb-2">99.9%</div>
-                    <div class="text-gray-600">Uptime Guarantee</div>
-                </div>
-                <div class="stats-counter">
-                    <div class="text-4xl font-bold text-blue-600 mb-2">10K+</div>
-                    <div class="text-gray-600">Active Merchants</div>
-                </div>
+    <!-- Currency Support -->
+    <section id="currencies" class="container mx-auto px-4 py-16">
+        <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">Supported Currencies</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+            <div class="bg-medium-purple p-6 rounded-lg text-center card-hover">
+                <div class="text-3xl mb-2">$</div>
+                <div class="font-semibold">USD</div>
+            </div>
+            <div class="bg-medium-purple p-6 rounded-lg text-center card-hover">
+                <div class="text-3xl mb-2">€</div>
+                <div class="font-semibold">EUR</div>
+            </div>
+            <div class="bg-medium-purple p-6 rounded-lg text-center card-hover">
+                <div class="text-3xl mb-2">£</div>
+                <div class="font-semibold">GBP</div>
+            </div>
+            <div class="bg-medium-purple p-6 rounded-lg text-center card-hover">
+                <div class="text-3xl mb-2">₦</div>
+                <div class="font-semibold">NGN</div>
+            </div>
+            <div class="bg-medium-purple p-6 rounded-lg text-center card-hover">
+                <div class="text-3xl mb-2">₿</div>
+                <div class="font-semibold">BTC</div>
+            </div>
+            <div class="bg-medium-purple p-6 rounded-lg text-center card-hover">
+                <div class="text-3xl mb-2">Ξ</div>
+                <div class="font-semibold">ETH</div>
             </div>
         </div>
     </section>
 
     <!-- Features Section -->
-    <section id="features" class="bg-gray-50 py-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-gray-900 mb-4">Powerful Payment Features</h2>
-                <p class="text-xl text-gray-600 max-w-3xl mx-auto">Everything you need to accept, process, and manage both traditional and digital currency payments</p>
+    <section id="features" class="container mx-auto px-4 py-16">
+        <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">Why Choose PayFlow?</h2>
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="bg-medium-purple p-8 rounded-xl card-hover">
+                <div class="w-16 h-16 bg-accent-purple rounded-lg flex items-center justify-center mb-6">
+                    <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold mb-4">Lightning Fast</h3>
+                <p class="text-gray-300">Process payments in seconds with our optimized infrastructure and real-time settlement.</p>
             </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="feature-card bg-white p-8 rounded-xl shadow-lg">
-                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-6">
-                        <span class="text-2xl">🔒</span>
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-900 mb-4">Bank-Grade Security</h3>
-                    <p class="text-gray-600">Advanced encryption and multi-layer security protocols protect every transaction</p>
+            <div class="bg-medium-purple p-8 rounded-xl card-hover">
+                <div class="w-16 h-16 bg-accent-purple rounded-lg flex items-center justify-center mb-6">
+                    <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 1L3 5v6c0 5.55 3.84 9.74 9 11 5.16-1.26 9-5.45 9-11V5l-9-4z"/>
+                    </svg>
                 </div>
-                
-                <div class="feature-card bg-white p-8 rounded-xl shadow-lg">
-                    <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-6">
-                        <span class="text-2xl">⚡</span>
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-900 mb-4">Instant Settlements</h3>
-                    <p class="text-gray-600">Real-time processing for crypto and same-day settlement for fiat currencies</p>
+                <h3 class="text-xl font-bold mb-4">Bank-Grade Security</h3>
+                <p class="text-gray-300">Military-grade encryption and compliance with global financial regulations.</p>
+            </div>
+            <div class="bg-medium-purple p-8 rounded-xl card-hover">
+                <div class="w-16 h-16 bg-accent-purple rounded-lg flex items-center justify-center mb-6">
+                    <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    </svg>
                 </div>
-                
-                <div class="feature-card bg-white p-8 rounded-xl shadow-lg">
-                    <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-6">
-                        <span class="text-2xl">🌍</span>
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-900 mb-4">Global Reach</h3>
-                    <p class="text-gray-600">Accept payments from customers worldwide with multi-currency support</p>
-                </div>
-                
-                <div class="feature-card bg-white p-8 rounded-xl shadow-lg">
-                    <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center mb-6">
-                        <span class="text-2xl">📊</span>
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-900 mb-4">Advanced Analytics</h3>
-                    <p class="text-gray-600">Comprehensive reporting and insights to optimize your payment strategy</p>
-                </div>
-                
-                <div class="feature-card bg-white p-8 rounded-xl shadow-lg">
-                    <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mb-6">
-                        <span class="text-2xl">🔧</span>
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-900 mb-4">Easy Integration</h3>
-                    <p class="text-gray-600">Simple APIs and SDKs for quick implementation across all platforms</p>
-                </div>
-                
-                <div class="feature-card bg-white p-8 rounded-xl shadow-lg">
-                    <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mb-6">
-                        <span class="text-2xl">💬</span>
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-900 mb-4">24/7 Support</h3>
-                    <p class="text-gray-600">Round-the-clock expert support to keep your payments running smoothly</p>
-                </div>
+                <h3 class="text-xl font-bold mb-4">Easy Integration</h3>
+                <p class="text-gray-300">Simple APIs and SDKs to integrate payments into any platform in minutes.</p>
             </div>
         </div>
     </section>
 
-    <!-- Solutions Section -->
-    <section id="solutions" class="bg-white py-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-gray-900 mb-4">Solutions for Every Business</h2>
-                <p class="text-xl text-gray-600">From startups to enterprises, we have the right payment solution</p>
+    <!-- Stats Section -->
+    <section class="container mx-auto px-4 py-16">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <div>
+                <div class="text-4xl md:text-5xl font-bold text-light-purple mb-2">50K+</div>
+                <div class="text-gray-300">Active Merchants</div>
             </div>
-            
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <div>
-                    <div class="space-y-8">
-                        <div class="flex items-start space-x-4">
-                            <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                                <span class="text-white text-sm font-bold">1</span>
-                            </div>
-                            <div>
-                                <h3 class="text-xl font-semibold text-gray-900 mb-2">E-commerce Integration</h3>
-                                <p class="text-gray-600">Seamlessly integrate crypto and fiat payments into your online store with our plug-and-play solutions.</p>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-start space-x-4">
-                            <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                                <span class="text-white text-sm font-bold">2</span>
-                            </div>
-                            <div>
-                                <h3 class="text-xl font-semibold text-gray-900 mb-2">Enterprise Solutions</h3>
-                                <p class="text-gray-600">Custom payment infrastructure for large-scale operations with dedicated support and SLA guarantees.</p>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-start space-x-4">
-                            <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                                <span class="text-white text-sm font-bold">3</span>
-                            </div>
-                            <div>
-                                <h3 class="text-xl font-semibold text-gray-900 mb-2">Mobile Payments</h3>
-                                <p class="text-gray-600">Native mobile SDKs for iOS and Android to create seamless in-app payment experiences.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="bg-gradient-to-br from-blue-50 to-purple-50 p-8 rounded-2xl">
-                    <div class="text-center">
-                        <div class="w-24 h-24 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full mx-auto mb-6 flex items-center justify-center">
-                            <span class="text-white text-3xl">💳</span>
-                        </div>
-                        <h3 class="text-2xl font-bold text-gray-900 mb-4">Ready to Get Started?</h3>
-                        <p class="text-gray-600 mb-6">Join thousands of businesses already using PayFlow for their payment needs.</p>
-                        <a href="signup.html" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors inline-block">
-                            Start Integration
-                        </a>
-                    </div>
-                </div>
+            <div>
+                <div class="text-4xl md:text-5xl font-bold text-light-purple mb-2">$2.5B</div>
+                <div class="text-gray-300">Processed Volume</div>
             </div>
-        </div>
-    </section>
-
-    <!-- Pricing Section -->
-    <section id="pricing" class="bg-gray-50 py-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-gray-900 mb-4">Simple, Transparent Pricing</h2>
-                <p class="text-xl text-gray-600">No hidden fees. Pay only for what you use.</p>
+            <div>
+                <div class="text-4xl md:text-5xl font-bold text-light-purple mb-2">99.9%</div>
+                <div class="text-gray-300">Uptime</div>
             </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="bg-white p-8 rounded-xl shadow-lg">
-                    <div class="text-center">
-                        <h3 class="text-xl font-semibold text-gray-900 mb-4">Starter</h3>
-                        <div class="text-4xl font-bold text-gray-900 mb-2">2.9%</div>
-                        <div class="text-gray-600 mb-6">per transaction</div>
-                        <ul class="space-y-3 text-left mb-8">
-                            <li class="flex items-center">
-                                <span class="text-green-500 mr-3">✓</span>
-                                <span class="text-gray-600">Up to $10K monthly volume</span>
-                            </li>
-                            <li class="flex items-center">
-                                <span class="text-green-500 mr-3">✓</span>
-                                <span class="text-gray-600">Basic crypto & fiat support</span>
-                            </li>
-                            <li class="flex items-center">
-                                <span class="text-green-500 mr-3">✓</span>
-                                <span class="text-gray-600">Standard API access</span>
-                            </li>
-                            <li class="flex items-center">
-                                <span class="text-green-500 mr-3">✓</span>
-                                <span class="text-gray-600">Email support</span>
-                            </li>
-                        </ul>
-                        <a href="signup.html" class="w-full bg-gray-100 hover:bg-gray-200 text-gray-900 py-3 rounded-lg font-semibold transition-colors inline-block text-center">
-                            Get Started
-                        </a>
-                    </div>
-                </div>
-                
-                <div class="bg-blue-600 p-8 rounded-xl shadow-lg text-white relative">
-                    <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                        <span class="bg-yellow-400 text-gray-900 px-4 py-1 rounded-full text-sm font-semibold">Most Popular</span>
-                    </div>
-                    <div class="text-center">
-                        <h3 class="text-xl font-semibold mb-4">Professional</h3>
-                        <div class="text-4xl font-bold mb-2">2.4%</div>
-                        <div class="text-blue-100 mb-6">per transaction</div>
-                        <ul class="space-y-3 text-left mb-8">
-                            <li class="flex items-center">
-                                <span class="text-yellow-400 mr-3">✓</span>
-                                <span>Up to $100K monthly volume</span>
-                            </li>
-                            <li class="flex items-center">
-                                <span class="text-yellow-400 mr-3">✓</span>
-                                <span>Full crypto & fiat support</span>
-                            </li>
-                            <li class="flex items-center">
-                                <span class="text-yellow-400 mr-3">✓</span>
-                                <span>Advanced API & webhooks</span>
-                            </li>
-                            <li class="flex items-center">
-                                <span class="text-yellow-400 mr-3">✓</span>
-                                <span>Priority support</span>
-                            </li>
-                            <li class="flex items-center">
-                                <span class="text-yellow-400 mr-3">✓</span>
-                                <span>Advanced analytics</span>
-                            </li>
-                        </ul>
-                        <a href="signup.html" class="w-full bg-white text-blue-600 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-block text-center">
-                            Start Free Trial
-                        </a>
-                    </div>
-                </div>
-                
-                <div class="bg-white p-8 rounded-xl shadow-lg">
-                    <div class="text-center">
-                        <h3 class="text-xl font-semibold text-gray-900 mb-4">Enterprise</h3>
-                        <div class="text-4xl font-bold text-gray-900 mb-2">Custom</div>
-                        <div class="text-gray-600 mb-6">pricing</div>
-                        <ul class="space-y-3 text-left mb-8">
-                            <li class="flex items-center">
-                                <span class="text-green-500 mr-3">✓</span>
-                                <span class="text-gray-600">Unlimited volume</span>
-                            </li>
-                            <li class="flex items-center">
-                                <span class="text-green-500 mr-3">✓</span>
-                                <span class="text-gray-600">Custom integrations</span>
-                            </li>
-                            <li class="flex items-center">
-                                <span class="text-green-500 mr-3">✓</span>
-                                <span class="text-gray-600">Dedicated account manager</span>
-                            </li>
-                            <li class="flex items-center">
-                                <span class="text-green-500 mr-3">✓</span>
-                                <span class="text-gray-600">24/7 phone support</span>
-                            </li>
-                            <li class="flex items-center">
-                                <span class="text-green-500 mr-3">✓</span>
-                                <span class="text-gray-600">SLA guarantees</span>
-                            </li>
-                        </ul>
-                        <button class="w-full bg-gray-900 hover:bg-gray-800 text-white py-3 rounded-lg font-semibold transition-colors">
-                            Contact Sales
-                        </button>
-                    </div>
-                </div>
+            <div>
+                <div class="text-4xl md:text-5xl font-bold text-light-purple mb-2">150+</div>
+                <div class="text-gray-300">Countries</div>
             </div>
         </div>
     </section>
 
     <!-- CTA Section -->
-    <section class="gradient-bg py-20">
-        <div class="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-            <h2 class="text-4xl font-bold text-white mb-6">Ready to Transform Your Payments?</h2>
-            <p class="text-xl text-blue-100 mb-8">Join the future of finance with MOLADA'S PAY comprehensive payment solutions</p>
+    <section class="container mx-auto px-4 py-16 text-center">
+        <div class="bg-medium-purple rounded-2xl p-8 md:p-16">
+            <h2 class="text-3xl md:text-4xl font-bold mb-6">Ready to Transform Your Payments?</h2>
+            <p class="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+                Join thousands of businesses already using PayFlow to accept payments globally.
+            </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="signup.html" class="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+                <a href="signup.html" class="bg-accent-purple hover:bg-light-purple px-8 py-4 rounded-lg font-semibold text-lg transition-all transform hover:scale-105 text-center">
                     Start Free Trial
                 </a>
-                <button class="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors">
-                    Schedule Demo
+                <button class="border-2 border-accent-purple hover:bg-accent-purple px-8 py-4 rounded-lg font-semibold text-lg transition-all" onclick="contactSales()">
+                    Contact Sales
                 </button>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-16">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                <div>
-                    <div class="flex items-center mb-6">
-                        <div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg mr-3"></div>
-                        <span class="text-xl font-bold">PayFlow</span>
+    <footer class="container mx-auto px-4 py-12 border-t border-medium-purple">
+        <div class="grid md:grid-cols-4 gap-8">
+            <div>
+                <div class="flex items-center space-x-2 mb-4">
+                    <div class="w-8 h-8 bg-accent-purple rounded-lg flex items-center justify-center">
+                        <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2L2 7v10c0 5.55 3.84 9.74 9 11 5.16-1.26 9-5.45 9-11V7l-10-5z"/>
+                        </svg>
                     </div>
-                    <p class="text-gray-400 mb-6">The next generation payment platform for crypto and fiat currencies.</p>
-                    <div class="flex space-x-4">
-                        <a href="#" class="text-gray-400 hover:text-white transition-colors">📧</a>
-                        <a href="#" class="text-gray-400 hover:text-white transition-colors">🐦</a>
-                        <a href="#" class="text-gray-400 hover:text-white transition-colors">💼</a>
-                    </div>
+                    <span class="text-xl font-bold">Molada Pay</span>
                 </div>
-                
-                <div>
-                    <h3 class="text-lg font-semibold mb-6">Product</h3>
-                    <ul class="space-y-3">
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Features</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Pricing</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">API Documentation</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Security</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h3 class="text-lg font-semibold mb-6">Company</h3>
-                    <ul class="space-y-3">
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">About Us</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Careers</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Blog</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Press</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h3 class="text-lg font-semibold mb-6">Support</h3>
-                    <ul class="space-y-3">
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Help Center</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Contact Us</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Status Page</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Terms of Service</a></li>
-                    </ul>
-                </div>
+                <p class="text-gray-400">The future of payments, today.</p>
             </div>
-            
-            <div class="border-t border-gray-800 mt-12 pt-8 text-center">
-                <p class="text-gray-400">&copy; 2024 PayFlow. All rights reserved.</p>
+            <div>
+                <h4 class="font-semibold mb-4">Product</h4>
+                <ul class="space-y-2 text-gray-400">
+                    <li><a href="#" class="hover:text-white transition-colors">Features</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Pricing</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-semibold mb-4">Company</h4>
+                <ul class="space-y-2 text-gray-400">
+                    <li><a href="#" class="hover:text-white transition-colors">About</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Careers</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Blog</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-semibold mb-4">Support</h4>
+                <ul class="space-y-2 text-gray-400">
+                    <li><a href="#" class="hover:text-white transition-colors">Help Center</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Contact</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Status</a></li>
+                </ul>
             </div>
         </div>
+        <div class="border-t border-medium-purple mt-8 pt-8 text-center text-gray-400">
+            <p>&copy; 2024 Molada Pay. All rights reserved.</p>
+        </div>
     </footer>
+</body>
+<script src="indexhtml.js"></script>
 
-    </body>
-        <script src="indexhtml.js"></script>
 </html>
