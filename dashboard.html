@@ -3,424 +3,1011 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - PayFlow</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>FinTech Dashboard</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --dark-purple: #1a0b2e;
+            --medium-purple: #2d1b4e;
+            --accent-purple: #6b46c1;
+            --light-purple: #8b5cf6;
+            --white: #ffffff;
+            --gray-light: #f8f9fa;
+            --gray-medium: #6c757d;
+            --gray-dark: #343a40;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --info: #3b82f6;
+        }
+
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--gray-light);
+            color: var(--gray-dark);
         }
-        
-        .sidebar-transition {
+
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: linear-gradient(135deg, var(--dark-purple) 0%, var(--medium-purple) 100%);
+            color: var(--white);
+            padding: 24px 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .logo {
+            padding: 0 24px 32px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--white);
+        }
+
+        .nav-menu {
+            padding: 24px 0;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 24px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
             transition: all 0.3s ease;
+            cursor: pointer;
         }
-        
-        .card-hover:hover {
+
+        .nav-item:hover, .nav-item.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+        }
+
+        .nav-item .icon {
+            margin-right: 12px;
+            font-size: 18px;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 24px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+            background: var(--white);
+            padding: 20px 24px;
+            border-radius: 16px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--dark-purple);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--accent-purple);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-weight: 600;
+        }
+
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--dark-purple);
+        }
+
+        .card-icon {
+            font-size: 24px;
+            color: var(--accent-purple);
+        }
+
+        /* Balance Cards */
+        .balance-card {
+            background: linear-gradient(135deg, var(--accent-purple), var(--light-purple));
+            color: var(--white);
+        }
+
+        .balance-amount {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .balance-change {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .currency-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .currency-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background: var(--gray-light);
+            border-radius: 8px;
+        }
+
+        .currency-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .currency-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--accent-purple);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .crypto-icon {
+            background: var(--warning);
+        }
+
+        /* Transaction History */
+        .transaction-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        .transaction-item:last-child {
+            border-bottom: none;
+        }
+
+        .transaction-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .transaction-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .transaction-icon.send {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--error);
+        }
+
+        .transaction-icon.receive {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .transaction-details h4 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .transaction-details p {
+            font-size: 12px;
+            color: var(--gray-medium);
+        }
+
+        .transaction-amount {
+            text-align: right;
+        }
+
+        .transaction-amount .amount {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .transaction-amount .status {
+            font-size: 12px;
+            padding: 2px 8px;
+            border-radius: 12px;
+        }
+
+        .status.completed {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .status.pending {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .action-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            padding: 20px 16px;
+            background: var(--gray-light);
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
             transition: all 0.3s ease;
+            text-decoration: none;
+            color: var(--gray-dark);
         }
-        
-        .metric-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
+        .action-btn:hover {
+            background: var(--accent-purple);
+            color: var(--white);
+            transform: translateY(-2px);
         }
-        
-        .metric-card-green {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+
+        .action-btn .icon {
+            font-size: 24px;
         }
-        
-        .metric-card-orange {
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+
+        .action-btn span {
+            font-size: 12px;
+            font-weight: 600;
         }
-        
-        .metric-card-purple {
-            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
-        }
-        
+
+        /* Analytics Chart */
         .chart-container {
+            height: 200px;
+            background: var(--gray-light);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray-medium);
+            margin-top: 20px;
+        }
+
+        /* Payment Methods */
+        .payment-method {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            background: var(--gray-light);
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+
+        .method-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .method-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: var(--accent-purple);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+        }
+
+        .toggle-switch {
+            width: 44px;
+            height: 24px;
+            background: var(--gray-medium);
+            border-radius: 12px;
             position: relative;
-            height: 300px;
+            cursor: pointer;
+            transition: background 0.3s ease;
         }
-        
-        .status-completed {
-            background-color: #D1FAE5;
-            color: #065F46;
+
+        .toggle-switch.active {
+            background: var(--success);
         }
-        
-        .status-pending {
-            background-color: #FEF3C7;
-            color: #92400E;
+
+        .toggle-switch::after {
+            content: '';
+            width: 20px;
+            height: 20px;
+            background: var(--white);
+            border-radius: 50%;
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            transition: transform 0.3s ease;
         }
-        
-        .status-failed {
-            background-color: #FEE2E2;
-            color: #991B1B;
+
+        .toggle-switch.active::after {
+            transform: translateX(20px);
         }
-        
-        .transaction-row:hover {
-            background-color: #F8FAFC;
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 16px;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                padding: 16px;
+            }
         }
-        
-        .action-button {
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Tab Navigation */
+        .tab-nav {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            background: var(--white);
+            padding: 8px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .tab-btn {
+            padding: 12px 20px;
+            border: none;
+            background: transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
             transition: all 0.3s ease;
+            color: var(--gray-medium);
         }
-        
-        .action-button:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+        .tab-btn.active {
+            background: var(--accent-purple);
+            color: var(--white);
         }
-        
-        .activity-item {
-            transition: all 0.2s ease;
+
+        .tab-content {
+            display: none;
         }
-        
-        .activity-item:hover {
-            background-color: #F1F5F9;
-            transform: translateX(4px);
-        }
-        
-        .welcome-gradient {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
+        .tab-content.active {
+            display: block;
         }
     </style>
 </head>
-<body class="bg-gray-50">
-    <!-- Sidebar -->
-    <div class="fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg sidebar-transition" id="sidebar">
-        <div class="flex items-center justify-center h-16 border-b border-gray-200">
-            <div class="flex items-center">
-                <div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg mr-3"></div>
-                <span class="text-xl font-bold text-gray-900">PayFlow</span>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="logo">
+                <h1>FinTech Pro</h1>
             </div>
-        </div>
-        
-        <nav class="mt-8">
-            <div class="px-4 space-y-2">
-                <a href="#" class="bg-blue-50 text-blue-700 group flex items-center px-4 py-3 text-sm font-medium rounded-lg">
-                    <span class="mr-3">📊</span>
+            <div class="nav-menu">
+                <a href="#" class="nav-item active" data-tab="overview">
+                    <span class="icon">📊</span>
                     Dashboard
                 </a>
-                <a href="transactions.html" class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors">
-                    <span class="mr-3">💳</span>
-                    Transactions
+                <a href="#" class="nav-item" data-tab="payments">
+                    <span class="icon">💳</span>
+                    Payments
                 </a>
-                <a href="#" class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors">
-                    <span class="mr-3">👥</span>
-                    Customers
+                <a href="#" class="nav-item" data-tab="wallets">
+                    <span class="icon">💰</span>
+                    Wallets
                 </a>
-                <a href="analytics.html" class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors">
-                    <span class="mr-3">📈</span>
+                <a href="#" class="nav-item" data-tab="merchant">
+                    <span class="icon">🏪</span>
+                    Merchant Tools
+                </a>
+                <a href="#" class="nav-item" data-tab="analytics">
+                    <span class="icon">📈</span>
                     Analytics
                 </a>
-                <a href="#" class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors">
-                    <span class="mr-3">⚙️</span>
-                    Settings
+                <a href="#" class="nav-item" data-tab="security">
+                    <span class="icon">🔒</span>
+                    Security
                 </a>
-                <a href="#" class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors">
-                    <span class="mr-3">💬</span>
-                    Support
+                <a href="#" class="nav-item">
+                    <span class="icon">⚙️</span>
+                    Settings
                 </a>
             </div>
         </nav>
-        
-        <div class="absolute bottom-0 w-full p-4 border-t border-gray-200">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center">
-                    <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm font-semibold">
-                        JD
-                    </div>
-                    <div class="ml-3">
-                        <p class="text-sm font-medium text-gray-900">John Doe</p>
-                        <p class="text-xs text-gray-500">john@company.com</p>
-                    </div>
-                </div>
-                <div class="flex flex-col space-y-1">
-                    <a href="signin.html" class="text-xs text-gray-500 hover:text-blue-600 transition-colors">Sign In</a>
-                    <a href="signup.html" class="text-xs text-gray-500 hover:text-blue-600 transition-colors">Sign Up</a>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Main Content -->
-    <div class="ml-64">
-        <!-- Top Navigation -->
-        <header class="bg-white shadow-sm border-b border-gray-200">
-            <div class="flex items-center justify-between px-6 py-4">
-                <div>
-                    <h1 class="text-2xl font-bold text-gray-900">Dashboard</h1>
-                    <p class="text-sm text-gray-600">Welcome back! Here's what's happening with your payments today.</p>
-                </div>
-                
-                <div class="flex items-center space-x-4">
-                    <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
-                        💳 New Payment
-                    </button>
-                    <div class="relative">
-                        <button class="p-2 text-gray-400 hover:text-gray-600 transition-colors">
-                            <span class="text-xl">🔔</span>
-                            <span class="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"></span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </header>
-
-        <!-- Dashboard Content -->
-        <main class="p-6">
-            <!-- Welcome Banner -->
-            <div class="welcome-gradient rounded-xl p-6 text-white mb-8 card-hover">
-                <div class="flex items-center justify-between">
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="header">
+                <h1 id="pageTitle">Dashboard Overview</h1>
+                <div class="user-profile">
+                    <div class="avatar">JD</div>
                     <div>
-                        <h2 class="text-2xl font-bold mb-2">Good morning, John! 👋</h2>
-                        <p class="text-blue-100">You've processed $12,450 in payments this week. Keep up the great work!</p>
+                        <div style="font-weight: 600;">John Doe</div>
+                        <div style="font-size: 12px; color: var(--gray-medium);">Premium Account</div>
                     </div>
-                    <div class="text-6xl opacity-20">💰</div>
                 </div>
-            </div>
+            </header>
 
-            <!-- Key Metrics -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                <div class="metric-card rounded-xl p-6 text-white card-hover">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-blue-100 text-sm font-medium">Total Revenue</p>
-                            <p class="text-3xl font-bold mt-2">$45,230</p>
-                            <p class="text-blue-100 text-xs mt-1 flex items-center">
-                                <span class="text-green-300 mr-1">↗ +12.5%</span>
-                                vs last month
-                            </p>
+            <!-- Overview Tab -->
+            <div class="tab-content active" id="overview">
+                <div class="dashboard-grid">
+                    <!-- Total Balance -->
+                    <div class="card balance-card">
+                        <div class="card-header">
+                            <h3 class="card-title">Total Balance</h3>
+                            <span class="card-icon">💰</span>
                         </div>
-                        <div class="text-3xl opacity-80">💰</div>
+                        <div class="balance-amount">$24,567.89</div>
+                        <div class="balance-change">+2.5% from last month</div>
                     </div>
-                </div>
-                
-                <div class="metric-card-green rounded-xl p-6 text-white card-hover">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-green-100 text-sm font-medium">Transactions</p>
-                            <p class="text-3xl font-bold mt-2">1,247</p>
-                            <p class="text-green-100 text-xs mt-1 flex items-center">
-                                <span class="text-green-200 mr-1">↗ +8.2%</span>
-                                vs last month
-                            </p>
-                        </div>
-                        <div class="text-3xl opacity-80">💳</div>
-                    </div>
-                </div>
-                
-                <div class="metric-card-orange rounded-xl p-6 text-white card-hover">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-orange-100 text-sm font-medium">Customers</p>
-                            <p class="text-3xl font-bold mt-2">892</p>
-                            <p class="text-orange-100 text-xs mt-1 flex items-center">
-                                <span class="text-orange-200 mr-1">↗ +15.3%</span>
-                                vs last month
-                            </p>
-                        </div>
-                        <div class="text-3xl opacity-80">👥</div>
-                    </div>
-                </div>
-                
-                <div class="metric-card-purple rounded-xl p-6 text-white card-hover">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-purple-100 text-sm font-medium">Success Rate</p>
-                            <p class="text-3xl font-bold mt-2">99.2%</p>
-                            <p class="text-purple-100 text-xs mt-1 flex items-center">
-                                <span class="text-purple-200 mr-1">↗ +0.3%</span>
-                                vs last month
-                            </p>
-                        </div>
-                        <div class="text-3xl opacity-80">🎯</div>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Charts Section -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                <!-- Revenue Chart -->
-                <div class="bg-white rounded-xl shadow-sm p-6 card-hover">
-                    <div class="flex items-center justify-between mb-6">
-                        <h3 class="text-lg font-semibold text-gray-900">Revenue Overview</h3>
-                        <select class="text-sm border border-gray-300 rounded-lg px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            <option>Last 7 days</option>
-                            <option>Last 30 days</option>
-                            <option>Last 3 months</option>
-                        </select>
-                    </div>
-                    <div class="chart-container">
-                        <canvas id="revenueChart"></canvas>
-                    </div>
-                </div>
-                
-                <!-- Payment Methods Chart -->
-                <div class="bg-white rounded-xl shadow-sm p-6 card-hover">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-6">Payment Methods</h3>
-                    <div class="chart-container">
-                        <canvas id="paymentMethodsChart"></canvas>
-                    </div>
-                    <div class="mt-4 space-y-3">
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center">
-                                <div class="w-3 h-3 bg-orange-500 rounded-full mr-3"></div>
-                                <span class="text-sm font-medium text-gray-900">Bitcoin</span>
-                            </div>
-                            <span class="text-sm font-semibold text-gray-900">45.2%</span>
+                    <!-- Quick Actions -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Quick Actions</h3>
+                            <span class="card-icon">⚡</span>
                         </div>
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center">
-                                <div class="w-3 h-3 bg-blue-500 rounded-full mr-3"></div>
-                                <span class="text-sm font-medium text-gray-900">Credit Cards</span>
-                            </div>
-                            <span class="text-sm font-semibold text-gray-900">34.8%</span>
+                        <div class="quick-actions">
+                            <button class="action-btn">
+                                <span class="icon">📤</span>
+                                <span>Send</span>
+                            </button>
+                            <button class="action-btn">
+                                <span class="icon">📥</span>
+                                <span>Receive</span>
+                            </button>
+                            <button class="action-btn">
+                                <span class="icon">🔄</span>
+                                <span>Exchange</span>
+                            </button>
+                            <button class="action-btn">
+                                <span class="icon">📊</span>
+                                <span>Invest</span>
+                            </button>
                         </div>
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center">
-                                <div class="w-3 h-3 bg-purple-500 rounded-full mr-3"></div>
-                                <span class="text-sm font-medium text-gray-900">Ethereum</span>
+                    </div>
+
+                    <!-- Recent Transactions -->
+                    <div class="card" style="grid-column: span 2;">
+                        <div class="card-header">
+                            <h3 class="card-title">Recent Transactions</h3>
+                            <span class="card-icon">📋</span>
+                        </div>
+                        <div class="transaction-item">
+                            <div class="transaction-info">
+                                <div class="transaction-icon receive">📥</div>
+                                <div class="transaction-details">
+                                    <h4>Payment Received</h4>
+                                    <p>From: Alice Johnson • Today 2:30 PM</p>
+                                </div>
                             </div>
-                            <span class="text-sm font-semibold text-gray-900">20.0%</span>
+                            <div class="transaction-amount">
+                                <div class="amount" style="color: var(--success);">+$1,250.00</div>
+                                <span class="status completed">Completed</span>
+                            </div>
+                        </div>
+                        <div class="transaction-item">
+                            <div class="transaction-info">
+                                <div class="transaction-icon send">📤</div>
+                                <div class="transaction-details">
+                                    <h4>Payment Sent</h4>
+                                    <p>To: Bob Smith • Yesterday 4:15 PM</p>
+                                </div>
+                            </div>
+                            <div class="transaction-amount">
+                                <div class="amount" style="color: var(--error);">-$850.00</div>
+                                <span class="status completed">Completed</span>
+                            </div>
+                        </div>
+                        <div class="transaction-item">
+                            <div class="transaction-info">
+                                <div class="transaction-icon send">📤</div>
+                                <div class="transaction-details">
+                                    <h4>Crypto Purchase</h4>
+                                    <p>Bitcoin • Yesterday 1:20 PM</p>
+                                </div>
+                            </div>
+                            <div class="transaction-amount">
+                                <div class="amount" style="color: var(--error);">-$2,000.00</div>
+                                <span class="status pending">Pending</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Recent Transactions & Quick Actions -->
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-                <!-- Recent Transactions -->
-                <div class="lg:col-span-2 bg-white rounded-xl shadow-sm p-6 card-hover">
-                    <div class="flex items-center justify-between mb-6">
-                        <h3 class="text-lg font-semibold text-gray-900">Recent Transactions</h3>
-                        <a href="transactions.html" class="text-blue-600 hover:text-blue-500 text-sm font-medium">View All</a>
+            <!-- Payments Tab -->
+            <div class="tab-content" id="payments">
+                <div class="dashboard-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Payment Methods</h3>
+                            <span class="card-icon">💳</span>
+                        </div>
+                        <div class="payment-method">
+                            <div class="method-info">
+                                <div class="method-icon">💳</div>
+                                <div>
+                                    <h4>Credit/Debit Cards</h4>
+                                    <p>Visa, Mastercard, Amex</p>
+                                </div>
+                            </div>
+                            <div class="toggle-switch active"></div>
+                        </div>
+                        <div class="payment-method">
+                            <div class="method-info">
+                                <div class="method-icon">🏦</div>
+                                <div>
+                                    <h4>Bank Transfer</h4>
+                                    <p>ACH, Wire, SEPA</p>
+                                </div>
+                            </div>
+                            <div class="toggle-switch active"></div>
+                        </div>
+                        <div class="payment-method">
+                            <div class="method-info">
+                                <div class="method-icon">₿</div>
+                                <div>
+                                    <h4>Cryptocurrency</h4>
+                                    <p>Bitcoin, Ethereum, USDC</p>
+                                </div>
+                            </div>
+                            <div class="toggle-switch active"></div>
+                        </div>
                     </div>
-                    
-                    <div class="space-y-4">
-                        <div class="transaction-row flex items-center justify-between p-3 rounded-lg transition-colors">
-                            <div class="flex items-center">
-                                <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mr-4">
-                                    <span class="text-green-600 text-sm">₿</span>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Send Payment</h3>
+                            <span class="card-icon">📤</span>
+                        </div>
+                        <form id="sendPaymentForm">
+                            <div style="margin-bottom: 16px;">
+                                <label style="display: block; margin-bottom: 8px; font-weight: 600;">Recipient</label>
+                                <input type="email" placeholder="Enter email or wallet address" style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px;">
+                            </div>
+                            <div style="margin-bottom: 16px;">
+                                <label style="display: block; margin-bottom: 8px; font-weight: 600;">Amount</label>
+                                <input type="number" placeholder="0.00" style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px;">
+                            </div>
+                            <div style="margin-bottom: 16px;">
+                                <label style="display: block; margin-bottom: 8px; font-weight: 600;">Currency</label>
+                                <select style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px;">
+                                    <option>USD</option>
+                                    <option>EUR</option>
+                                    <option>BTC</option>
+                                    <option>ETH</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="action-btn" style="width: 100%; background: var(--accent-purple); color: var(--white);">
+                                Send Payment
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Wallets Tab -->
+            <div class="tab-content" id="wallets">
+                <div class="dashboard-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Fiat Currencies</h3>
+                            <span class="card-icon">💵</span>
+                        </div>
+                        <div class="currency-list">
+                            <div class="currency-item">
+                                <div class="currency-info">
+                                    <div class="currency-icon">$</div>
+                                    <div>
+                                        <h4>US Dollar</h4>
+                                        <p>USD</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <p class="text-sm font-medium text-gray-900">Bitcoin Payment</p>
-                                    <p class="text-xs text-gray-500">john.smith@email.com</p>
+                                <div style="text-align: right;">
+                                    <div style="font-weight: 600;">$15,234.56</div>
+                                    <div style="font-size: 12px; color: var(--success);">+1.2%</div>
                                 </div>
                             </div>
-                            <div class="text-right">
-                                <p class="text-sm font-semibold text-gray-900">$1,250.00</p>
-                                <span class="status-completed text-xs px-2 py-1 rounded-full font-medium">Completed</span>
+                            <div class="currency-item">
+                                <div class="currency-info">
+                                    <div class="currency-icon">€</div>
+                                    <div>
+                                        <h4>Euro</h4>
+                                        <p>EUR</p>
+                                    </div>
+                                </div>
+                                <div style="text-align: right;">
+                                    <div style="font-weight: 600;">€8,456.78</div>
+                                    <div style="font-size: 12px; color: var(--error);">-0.5%</div>
+                                </div>
+                            </div>
+                            <div class="currency-item">
+                                <div class="currency-info">
+                                    <div class="currency-icon">£</div>
+                                    <div>
+                                        <h4>British Pound</h4>
+                                        <p>GBP</p>
+                                    </div>
+                                </div>
+                                <div style="text-align: right;">
+                                    <div style="font-weight: 600;">£3,789.12</div>
+                                    <div style="font-size: 12px; color: var(--success);">+0.8%</div>
+                                </div>
                             </div>
                         </div>
-                        
-                        <div class="transaction-row flex items-center justify-between p-3 rounded-lg transition-colors">
-                            <div class="flex items-center">
-                                <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-4">
-                                    <span class="text-blue-600 text-sm">💳</span>
-                                </div>
-                                <div>
-                                    <p class="text-sm font-medium text-gray-900">Credit Card Payment</p>
-                                    <p class="text-xs text-gray-500">sarah.wilson@email.com</p>
-                                </div>
-                            </div>
-                            <div class="text-right">
-                                <p class="text-sm font-semibold text-gray-900">$89.99</p>
-                                <span class="status-pending text-xs px-2 py-1 rounded-full font-medium">Pending</span>
-                            </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Cryptocurrencies</h3>
+                            <span class="card-icon">₿</span>
                         </div>
-                        
-                        <div class="transaction-row flex items-center justify-between p-3 rounded-lg transition-colors">
-                            <div class="flex items-center">
-                                <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center mr-4">
-                                    <span class="text-purple-600 text-sm">Ξ</span>
+                        <div class="currency-list">
+                            <div class="currency-item">
+                                <div class="currency-info">
+                                    <div class="currency-icon crypto-icon">₿</div>
+                                    <div>
+                                        <h4>Bitcoin</h4>
+                                        <p>BTC</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <p class="text-sm font-medium text-gray-900">Ethereum Payment</p>
-                                    <p class="text-xs text-gray-500">mike.johnson@email.com</p>
-                                </div>
-                            </div>
-                            <div class="text-right">
-                                <p class="text-sm font-semibold text-gray-900">$2,100.00</p>
-                                <span class="status-completed text-xs px-2 py-1 rounded-full font-medium">Completed</span>
-                            </div>
-                        </div>
-                        
-                        <div class="transaction-row flex items-center justify-between p-3 rounded-lg transition-colors">
-                            <div class="flex items-center">
-                                <div class="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center mr-4">
-                                    <span class="text-red-600 text-sm">💳</span>
-                                </div>
-                                <div>
-                                    <p class="text-sm font-medium text-gray-900">Credit Card Payment</p>
-                                    <p class="text-xs text-gray-500">alex.brown@email.com</p>
+                                <div style="text-align: right;">
+                                    <div style="font-weight: 600;">0.5432 BTC</div>
+                                    <div style="font-size: 12px; color: var(--success);">+5.2%</div>
                                 </div>
                             </div>
-                            <div class="text-right">
-                                <p class="text-sm font-semibold text-gray-900">$45.00</p>
-                                <span class="status-failed text-xs px-2 py-1 rounded-full font-medium">Failed</span>
-                            </div>
-                        </div>
-                        
-                        <div class="transaction-row flex items-center justify-between p-3 rounded-lg transition-colors">
-                            <div class="flex items-center">
-                                <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mr-4">
-                                    <span class="text-green-600 text-sm">₿</span>
+                            <div class="currency-item">
+                                <div class="currency-info">
+                                    <div class="currency-icon crypto-icon">Ξ</div>
+                                    <div>
+                                        <h4>Ethereum</h4>
+                                        <p>ETH</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <p class="text-sm font-medium text-gray-900">Bitcoin Payment</p>
-                                    <p class="text-xs text-gray-500">emma.davis@email.com</p>
+                                <div style="text-align: right;">
+                                    <div style="font-weight: 600;">12.8765 ETH</div>
+                                    <div style="font-size: 12px; color: var(--success);">+3.1%</div>
                                 </div>
                             </div>
-                            <div class="text-right">
-                                <p class="text-sm font-semibold text-gray-900">$750.00</p>
-                                <span class="status-completed text-xs px-2 py-1 rounded-full font-medium">Completed</span>
+                            <div class="currency-item">
+                                <div class="currency-info">
+                                    <div class="currency-icon crypto-icon">$</div>
+                                    <div>
+                                        <h4>USD Coin</h4>
+                                        <p>USDC</p>
+                                    </div>
+                                </div>
+                                <div style="text-align: right;">
+                                    <div style="font-weight: 600;">5,000 USDC</div>
+                                    <div style="font-size: 12px; color: var(--gray-medium);">0.0%</div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                
-                <!-- Quick Actions -->
-                <div class="bg-white rounded-xl shadow-sm p-6 card-hover">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-6">Quick Actions</h3>
-                    
-                    <div class="space-y-3">
-                        <button class="action-button w-full bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-lg text-sm font-medium flex items-center justify-center">
-                            <span class="mr-2">📄</span>
-                            Create Invoice
-                        </button>
-                        
-                        <button class="action-button w-full bg-green-600 hover:bg-green-700 text-white p-3 rounded-lg text-sm font-medium flex items-center justify-center">
-                            <span class="mr-2">👤</span>
-                            Add Customer
-                        </button>
-                        
-                        <button class="action-button w-full bg-purple-600 hover:bg-purple-700 text-white p-3 rounded-lg text-sm font-medium flex items-center justify-center">
-                            <span class="mr-2">📊</span>
-                            View Reports
-                        </button>
-                        
-                        <button class="action-button w-full bg-orange-600 hover:bg-orange-700 text-white p-3 rounded-lg text-sm font-medium flex items-center justify-center">
-                            <span class="mr-2">⚙️</span>
-                            Settings
+            </div>
+
+            <!-- Merchant Tools Tab -->
+            <div class="tab-content" id="merchant">
+                <div class="dashboard-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Payment Gateway</h3>
+                            <span class="card-icon">🔗</span>
+                        </div>
+                        <div style="margin-bottom: 16px;">
+                            <h4 style="margin-bottom: 8px;">API Integration</h4>
+                            <div style="background: var(--gray-light); padding: 12px; border-radius: 8px; font-family: monospace; font-size: 12px;">
+                                pk_live_51H7z2bKuuiPiPi...
+                            </div>
+                        </div>
+                        <div class="quick-actions">
+                            <button class="action-btn">
+                                <span class="icon">📋</span>
+                                <span>Copy API Key</span>
+                            </button>
+                            <button class="action-btn">
+                                <span class="icon">📖</span>
+                                <span>Documentation</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Create Invoice</h3>
+                            <span class="card-icon">📄</span>
+                        </div>
+                        <form id="invoiceForm">
+                            <div style="margin-bottom: 16px;">
+                                <label style="display: block; margin-bottom: 8px; font-weight: 600;">Customer Email</label>
+                                <input type="email" placeholder="customer@example.com" style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px;">
+                            </div>
+                            <div style="margin-bottom: 16px;">
+                                <label style="display: block; margin-bottom: 8px; font-weight: 600;">Amount</label>
+                                <input type="number" placeholder="0.00" style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px;">
+                            </div>
+                            <div style="margin-bottom: 16px;">
+                                <label style="display: block; margin-bottom: 8px; font-weight: 600;">Description</label>
+                                <textarea placeholder="Invoice description" style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px; resize: vertical; height: 80px;"></textarea>
+                            </div>
+                            <button type="submit" class="action-btn" style="width: 100%; background: var(--accent-purple); color: var(--white);">
+                                Create Invoice
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Subscription Management</h3>
+                            <span class="card-icon">🔄</span>
+                        </div>
+                        <div style="margin-bottom: 16px;">
+                            <h4 style="margin-bottom: 8px;">Active Subscriptions</h4>
+                            <div class="currency-item">
+                                <div class="currency-info">
+                                    <div class="currency-icon">📱</div>
+                                    <div>
+                                        <h4>Premium Plan</h4>
+                                        <p>Monthly • $29.99</p>
+                                    </div>
+                                </div>
+                                <div class="toggle-switch active"></div>
+                            </div>
+                        </div>
+                        <button class="action-btn" style="width: 100%; background: var(--success); color: var(--white);">
+                            <span class="icon">➕</span>
+                            <span>Add Subscription</span>
                         </button>
                     </div>
-                    
-                    <div class="mt-6 pt-6 border-t border-gray-200">
-                        <h4 class="text-sm font-semibold text-gray-900 mb-3">Recent Activity</h4>
-                        <div class="space-y-3">
-                            <div class="activity-item p-2 rounded-lg">
-                                <p class="text-xs text-gray-600">New customer registered</p>
-                                <p class="text-xs text-gray-400">2 minutes ago</p>
+                </div>
+            </div>
+
+            <!-- Analytics Tab -->
+            <div class="tab-content" id="analytics">
+                <div class="dashboard-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Transaction Volume</h3>
+                            <span class="card-icon">📊</span>
+                        </div>
+                        <div class="balance-amount" style="color: var(--dark-purple);">$156,789</div>
+                        <div class="balance-change" style="color: var(--success);">+12.5% this month</div>
+                        <div class="chart-container">
+                            📈 Transaction Volume Chart
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Payment Methods Usage</h3>
+                            <span class="card-icon">💳</span>
+                        </div>
+                        <div class="currency-list">
+                            <div class="currency-item">
+                                <div class="currency-info">
+                                    <div class="currency-icon">💳</div>
+                                    <div>
+                                        <h4>Credit Cards</h4>
+                                        <p>65% of transactions</p>
+                                    </div>
+                                </div>
+                                <div style="font-weight: 600;">$101,913</div>
                             </div>
-                            <div class="activity-item p-2 rounded-lg">
-                                <p class="text-xs text-gray-600">Payment method updated</p>
-                                <p class="text-xs text-gray-400">1 hour ago</p>
+                            <div class="currency-item">
+                                <div class="currency-info">
+                                    <div class="currency-icon">🏦</div>
+                                    <div>
+                                        <h4>Bank Transfers</h4>
+                                        <p>25% of transactions</p>
+                                    </div>
+                                </div>
+                                <div style="font-weight: 600;">$39,197</div>
                             </div>
-                            <div class="activity-item p-2 rounded-lg">
-                                <p class="text-xs text-gray-600">Invoice #1234 sent</p>
-                                <p class="text-xs text-gray-400">3 hours ago</p>
+                            <div class="currency-item">
+                                <div class="currency-info">
+                                    <div class="currency-icon crypto-icon">₿</div>
+                                    <div>
+                                        <h4>Crypto</h4>
+                                        <p>10% of transactions</p>
+                                    </div>
+                                </div>
+                                <div style="font-weight: 600;">$15,679</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card" style="grid-column: span 2;">
+                        <div class="card-header">
+                            <h3 class="card-title">Customer Insights</h3>
+                            <span class="card-icon">👥</span>
+                        </div>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+                            <div style="text-align: center;">
+                                <div style="font-size: 32px; font-weight: 700; color: var(--accent-purple);">2,847</div>
+                                <div style="color: var(--gray-medium);">Total Customers</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="font-size: 32px; font-weight: 700; color: var(--success);">89.2%</div>
+                                <div style="color: var(--gray-medium);">Success Rate</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="font-size: 32px; font-weight: 700; color: var(--info);">$547</div>
+                                <div style="color: var(--gray-medium);">Avg Transaction</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="font-size: 32px; font-weight: 700; color: var(--warning);">1.2s</div>
+                                <div style="color: var(--gray-medium);">Avg Processing</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Security Tab -->
+            <div class="tab-content" id="security">
+                <div class="dashboard-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Security Status</h3>
+                            <span class="card-icon">🔒</span>
+                        </div>
+                        <div class="currency-list">
+                            <div class="currency-item">
+                                <div class="currency-info">
+                                    <div class="currency-icon" style="background: var(--success);">✓</div>
+                                    <div>
+                                        <h4>Two-Factor Authentication</h4>
+                                        <p>Enabled</p>
+                                    </div>
+                                </div>
+                                <div class="toggle-switch active"></div>
+                            </div>
+                            <div class="currency-item">
+                                <div class="currency-info">
+                                    <div class="currency-icon" style="background: var(--success);">✓</div>
+                                    <div>
+                                        <h4>KYC Verification</h4>
+                                        <p>Completed</p>
+                                    </div>
+                                </div>
+                                <div style="color: var(--success); font-weight: 600;">Verified</div>
+                            </div>
+                            <div class="currency-item">
+                                <div class="currency-info">
+                                    <div class="currency-icon" style="background: var(--success);">✓</div>
+                                    <div>
+                                        <h4>AML Compliance</h4>
+                                        <p>Active monitoring</p>
+                                    </div>
+                                </div>
+                                <div style="color: var(--success); font-weight: 600;">Active</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Fraud Prevention</h3>
+                            <span class="card-icon">🛡️</span>
+                        </div>
+                        <div style="margin-bottom: 20px;">
+                            <h4 style="margin-bottom: 8px;">Risk Score</h4>
+                            <div style="background: var(--gray-light); height: 8px; border-radius: 4px; overflow: hidden;">
+                                <div style="background: var(--success); height: 100%; width: 15%; border-radius: 4px;"></div>
+                            </div>
+                            <div style="font-size: 12px; color: var(--success); margin-top: 4px;">Low Risk (15/100)</div>
+                        </div>
+                        <div class="currency-list">
+                            <div class="currency-item">
+                                <div class="currency-info">
+                                    <div class="currency-icon" style="background: var(--success);">0</div>
+                                    <div>
+                                        <h4>Blocked Transactions</h4>
+                                        <p>Last 30 days</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="currency-item">
+                                <div class="currency-info">
+                                    <div class="currency-icon" style="background: var(--success);">0</div>
+                                    <div>
+                                        <h4>Chargebacks</h4>
+                                        <p>Last 30 days</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -428,6 +1015,7 @@
             </div>
         </main>
     </div>
-</body>
-<script src="dashboard.js"></script>
+
+    </body>
+    <script src="dashboard.js"></script>
 </html>
